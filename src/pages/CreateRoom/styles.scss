@@ -1,0 +1,59 @@
+.main-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .card {
+        background: #ccc;
+        display: grid;
+        grid-column-gap: 1px;
+        box-shadow: 1px 1px 5px #ccc;
+        grid-template-columns: 200px 1fr 1fr;
+        grid-template-rows: auto auto;
+        grid-template-areas: 
+        "inf inp1 inp2" 
+        "inf btn1 btn2" ;
+
+        & > * {
+            background: #FFF;
+            padding: 1.2em;
+        }
+
+        .info {
+            grid-area: inf;
+        }
+
+        & input {
+            padding: 0.5em;
+            font: inherit;
+            width: 100%;
+        }
+
+        .input-cont {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            &.num1 { grid-area: inp1 }
+            &.num2 { grid-area: inp2 }
+        }
+
+        .btn-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &.num1 { grid-area: btn1 }
+            &.num2 { grid-area: btn2 }
+        }
+        .copy-btn {
+            padding: 0.7em;
+        }
+
+        .card-btn {
+            width: 100%;
+            padding: 0.7em;
+        }
+
+    }
+}

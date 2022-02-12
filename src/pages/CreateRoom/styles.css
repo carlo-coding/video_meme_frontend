@@ -1,0 +1,103 @@
+.main-container {
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.main-container .card {
+  background: #ccc;
+  display: -ms-grid;
+  display: grid;
+  grid-column-gap: 1px;
+  -webkit-box-shadow: 1px 1px 5px #ccc;
+          box-shadow: 1px 1px 5px #ccc;
+  -ms-grid-columns: 200px 1fr 1fr;
+      grid-template-columns: 200px 1fr 1fr;
+  -ms-grid-rows: auto auto;
+      grid-template-rows: auto auto;
+      grid-template-areas: "inf inp1 inp2"  "inf btn1 btn2";
+}
+
+.main-container .card > * {
+  background: #FFF;
+  padding: 1.2em;
+}
+
+.main-container .card .info {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 1;
+  grid-area: inf;
+}
+
+.main-container .card input {
+  padding: 0.5em;
+  font: inherit;
+  width: 100%;
+}
+
+.main-container .card .input-cont {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.main-container .card .input-cont.num1 {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: inp1;
+}
+
+.main-container .card .input-cont.num2 {
+  -ms-grid-row: 1;
+  -ms-grid-column: 3;
+  grid-area: inp2;
+}
+
+.main-container .card .btn-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.main-container .card .btn-wrapper.num1 {
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
+  grid-area: btn1;
+}
+
+.main-container .card .btn-wrapper.num2 {
+  -ms-grid-row: 2;
+  -ms-grid-column: 3;
+  grid-area: btn2;
+}
+
+.main-container .card .copy-btn {
+  padding: 0.7em;
+}
+
+.main-container .card .card-btn {
+  width: 100%;
+  padding: 0.7em;
+}
+/*# sourceMappingURL=styles.css.map */

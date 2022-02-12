@@ -1,24 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
+import PeerConnection from './pages/PeerConnection';
 import './App.css';
+import CreateRoom from './pages/CreateRoom';
+import { Route } from "wouter";
+import Game from './pages/Game';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+          <Route path='/' >
+            <CreateRoom />
+          </Route>
+          <Route path='/room/:id'>
+            <Game />
+          </Route>
     </div>
   );
 }

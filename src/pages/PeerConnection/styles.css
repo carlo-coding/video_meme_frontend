@@ -1,0 +1,89 @@
+.peer-main-container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 3fr 1.5fr 1fr;
+      grid-template-columns: 1fr 3fr 1.5fr 1fr;
+  -ms-grid-rows: 3em auto auto;
+      grid-template-rows: 3em auto auto;
+      grid-template-areas: "header header header header" "videos videos chat ." "videos videos chat .";
+}
+
+.peer-main-container .game-header {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 4;
+  grid-area: header;
+}
+
+.peer-main-container .chat {
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 3;
+  grid-area: chat;
+  border: 0.5px solid #CCC;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 20px;
+}
+
+.peer-main-container .chat .messages_container {
+  height: 250px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  overflow-y: auto;
+}
+
+.peer-main-container .videos {
+  border: 0.5px solid #CCC;
+  display: -ms-grid;
+  display: grid;
+  margin: auto;
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-area: videos;
+  -ms-grid-columns: (200px)[3];
+      grid-template-columns: repeat(3, 200px);
+  -ms-grid-rows: (200px)[2];
+      grid-template-rows: repeat(2, 200px);
+}
+
+.peer-main-container .videos .user-video {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  position: relative;
+}
+
+.peer-main-container .videos .user-video video {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.peer-main-container .videos .user-video .user-name {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.2em 0.6em;
+  color: #FFF;
+  background: #9e9e9e;
+  border-radius: 5px;
+}
+/*# sourceMappingURL=styles.css.map */
