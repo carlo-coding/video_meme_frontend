@@ -1,0 +1,61 @@
+.peer-main-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1.5fr 1fr;
+    grid-template-rows: 3em auto auto;
+    grid-template-areas: 
+    "header header header header"
+    "videos videos chat ."
+    "videos videos chat .";
+    
+    & .game-header {
+        grid-area: header;
+    }
+
+    & .chat {
+        grid-area: chat;
+        border: 0.5px solid #CCC;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        & .messages_container {
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            overflow-y: auto;
+        }
+    }
+
+    & .videos {
+        border: 0.5px solid #CCC;
+        display: grid;
+        margin: auto;
+        grid-area: videos;
+        grid-template-columns: repeat(3, 200px);
+        grid-template-rows: repeat(2, 200px);
+    
+        & .user-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+    
+            & video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            & .user-name {
+                position: absolute;
+                top: 0;
+                left: 0;
+                padding: 0.2em 0.6em;
+                color: #FFF;
+                background: rgb(158, 158, 158);
+                border-radius: 5px;
+            }
+        }
+    
+    
+    }
+}

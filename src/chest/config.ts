@@ -1,0 +1,1 @@
+export const SERVER_URL = process.env.VIDEO_MEME_SERVER_URL || "http://localhost:4057/";

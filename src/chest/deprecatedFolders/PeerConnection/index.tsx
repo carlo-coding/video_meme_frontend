@@ -2,7 +2,7 @@ import "./styles.css";
 import { useEffect, useRef, useState } from "react";
 import Peer, { Instance } from "simple-peer";
 import io, { Socket } from "socket.io-client";
-import Chat from "../Chat";
+import Chat from "../../../views/pages/Chat";
 
 // Crear un stream local y ponerlo en video
 
@@ -38,7 +38,7 @@ export default function PeerConnection({ roomId, userName }: Props) {
         myStream.current = await window.navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         if (myVideo.current) myVideo.current.srcObject = myStream.current;
 
-        socket.current = io(`http://localhost:4057/${roomId}`);
+        socket.current = io(`https://video-meme-backend-k4m6w.ondigitalocean.app/${roomId}`);
         
         // Comenzar la propagación desde el cliente para poder 
         // Compartir otros metadatos en la inicialización

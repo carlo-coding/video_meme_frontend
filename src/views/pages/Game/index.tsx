@@ -1,7 +1,7 @@
 import "./styles.css";
 import React, { useState, } from "react";
 import { useRoute } from "wouter";
-import PeerConnection from "../PeerConnection";
+import GameRoom from "../GameRoom";
 
 enum STAGES {
     ENTER_USER_NAME,
@@ -60,7 +60,7 @@ export default function Game() {
             return (
                 <div className="start_game">
                     {params && <>
-                        <PeerConnection roomId={params.id} userName={name}/>
+                        <GameRoom roomId={params.id} userName={name}/>
                     </>}
                 </div>
             )

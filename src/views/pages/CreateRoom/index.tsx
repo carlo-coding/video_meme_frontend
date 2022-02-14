@@ -13,6 +13,11 @@ enum STAGES {
 }
 
 
+function validateRoom(room: string) {
+    const regex = /^\game-\d+$/
+    return !!room.match(regex)
+}
+
 export default function UserInfo() {
     const [,setLocation] = useLocation();
     const [roomId, setRoomId] = useState(createRoomId());
@@ -21,6 +26,10 @@ export default function UserInfo() {
     const targetInput = useRef<HTMLInputElement>(null);
 
     const joinRoom = ()=> {
+        if (!validateRoom(targetRoom)) {
+            alert("El id de sala no es válido");
+            return
+        }
         setLocation(`/room/${targetRoom}/`);
     };
 

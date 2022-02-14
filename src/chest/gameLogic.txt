@@ -36,9 +36,3 @@ Si crees saber la palabra escribela en el chat
 
 
 
-
-
-
-
-export default 0;
-
