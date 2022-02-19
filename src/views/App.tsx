@@ -5,10 +5,12 @@ import './App.css';
 import CreateRoom from './pages/CreateRoom';
 import { Route } from "wouter";
 import Game from './pages/Game';
+import Modal from "./components/Modal"
 
 function App() {
   return (
     <div className="App">
+        <Modal />
         <Route path='/' >
           <CreateRoom />
         </Route>

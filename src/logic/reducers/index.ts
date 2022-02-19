@@ -1,6 +1,10 @@
 import { combineReducers } from "redux";
 import interactionsReducer from "./interactions";
+import gameReducer from "./game";
+import uiReducer from "./ui";
 
 export default combineReducers({
-    interactions: interactionsReducer
+    interactions: interactionsReducer,
+    game: gameReducer,
+    ui: uiReducer
 })

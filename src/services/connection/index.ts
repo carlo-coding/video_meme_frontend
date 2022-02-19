@@ -10,26 +10,23 @@ type Params = {
     nameSpace: string,
     onStream(params: IncomingStream): void,
     onMessage(params: Message): void,
-    onRemoveStream(params: string): void
+    onRemoveStream(params: string): void,
+    onNamesChange(params: NamesInterface): void
 }
 
-class Connection implements ConnectionInterface {
-    stream = undefined as MediaStream|undefined;
-    socket = null as Socket|null;
-    peers = {} as PeersInterface;
-    names = {} as NamesInterface;
-    userName = "" as string;
-    onStream = (params: IncomingStream)=>{};
-    onMessage = (params: Message)=>{};
-    onRemoveStream = (params: string)=>{}
+class Connection implements ConnectionInterface { 
+    stream; socket; userName; onStream; onMessage; onRemoveStream; onNamesChange; 
+    peers: PeersInterface = {};
+    names: NamesInterface = {};
 
-    constructor({userStream, userName, nameSpace, onStream, onMessage, onRemoveStream}: Params) {
+    constructor({userStream, userName, nameSpace, onStream, onMessage, onRemoveStream, onNamesChange}: Params) {
         this.socket = io(`${SERVER_URL}${nameSpace}`);
         this.stream = userStream;
         this.userName = userName;
         this.onStream = onStream;
         this.onMessage = onMessage;
         this.onRemoveStream = onRemoveStream;
+        this.onNamesChange = onNamesChange;
 
         // Comenzar la propagación desde el cliente para poder 
         // Compartir otros metadatos en la inicialización
@@ -75,6 +72,8 @@ class Connection implements ConnectionInterface {
             this.onMessage({ message, name })
         })
 
+        this.socket.emit("start-game");
+
         // END OF CLASS CONSTRUCTOR :)
     }
 
@@ -95,7 +94,8 @@ class Connection implements ConnectionInterface {
         // Save peer
         this.peers[socket_id] = newPeer;
         // Save name
-        this.names[socket_id] = username
+        this.names[socket_id] = username;
+        this.onNamesChange(this.names);
     }
 
     private removePeer(socket_id: string) {
@@ -103,6 +103,7 @@ class Connection implements ConnectionInterface {
             this.peers[socket_id].destroy();
             delete this.peers[socket_id];
             delete this.names[socket_id];
+            this.onNamesChange(this.names);
         }
     }
 

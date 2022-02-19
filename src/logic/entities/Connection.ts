@@ -23,6 +23,7 @@ export default interface Connection {
     onMessage(incomingMessage: Message): void,
     onStream(incomingStream: IncomingStream): void,
     onRemoveStream(id: string): void,
+    onNamesChange(names: NamesInterface): void
     disconnect(): void
 }
 

@@ -4,7 +4,7 @@ import { useLocation } from "wouter";
 
 function createRoomId () {
     const id = ()=> Math.random().toString().slice(2);
-    return `game-${id()}`;
+    return `gvideo-${id()}`;
 }
 
 enum STAGES {
@@ -14,7 +14,7 @@ enum STAGES {
 
 
 function validateRoom(room: string) {
-    const regex = /^\game-\d+$/
+    const regex = /^\gvideo-\w+$/
     return !!room.match(regex)
 }
 
