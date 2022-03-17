@@ -19,11 +19,10 @@ export default interface Connection {
     names: NamesInterface,
     stream: MediaStream|undefined,
     userName: string,
-    sendMessage(message: string): void,
-    onMessage(incomingMessage: Message): void,
     onStream(incomingStream: IncomingStream): void,
     onRemoveStream(id: string): void,
     onNamesChange(names: NamesInterface): void
+    onDisconnection?(reazon: string): void
     disconnect(): void
 }
 

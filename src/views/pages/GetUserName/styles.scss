@@ -1,0 +1,37 @@
+.game-info {
+    padding: 3rem;
+    text-align: left;
+    max-width: 400px;
+    & > * {
+        margin: 1em 0;
+    }
+}
+
+.get-name-page
+{
+    min-height: 100vh;
+    background-color: var(--clr-main-dark);
+    color: var(--clr-main-clear);
+    display: grid;
+    place-items: center;
+
+    .name_form {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        width: 80%;
+
+    }
+
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 40px;
+
+        h2 {
+            font-size: 30px;
+        }
+    }
+}

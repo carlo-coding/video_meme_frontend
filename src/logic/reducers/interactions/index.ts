@@ -1,4 +1,5 @@
 import { AnyAction } from "redux";
+import { setPlayerMic, setPlayerVid } from "../../../chest/utils";
 import { INTERACTIONS } from "../../actions/interactions";
 import Connection, { Message, IncomingStream } from "../../entities/Connection";
 
@@ -38,9 +39,11 @@ export default function interactionsReducer ( state: InteractionsState = initial
             newStreams = state.streams.filter(str => str.id !== payload.id );
             return {...state, streams: newStreams};
 
-        case INTERACTIONS.BROADCAST_MESSAGE:
-            state.instance?.sendMessage(payload.message)
-            return state
+        case INTERACTIONS.DISCONNECT:
+            setPlayerVid(false, state.instance?.stream)
+            setPlayerMic(false, state.instance?.stream)
+            state.instance?.disconnect();
+            return {...state, instance: null}
         default:
             return state;
     }

@@ -1,14 +1,18 @@
+import "./styles.scss";
 import { memo, useEffect, useRef, useState } from "react";
 import Peer, { Instance } from "simple-peer";
 import io, { Socket } from "socket.io-client";
 import GlobalState from "../../../logic/reducers/GlobalState";
 import { connect, useDispatch } from "react-redux";
 import Connection, { Message, IncomingStream, NamesInterface } from "../../../logic/entities/Connection";
-import { broadcastMessage, initInteractions } from "../../../logic/actions/interactions";
+import { initInteractions } from "../../../logic/actions/interactions";
 import { initGame, sendMessage, startGame } from "../../../logic/actions/game";
 import Chat from "../../components/Chat";
-import { Button, Box } from "@mui/material";
-
+import Button from "../../components/Button";
+import { Mute } from "../../components/CustomIcons/Mute";
+import { VideoOff } from "../../components/CustomIcons/VideoOff";
+import { BsCameraVideoOff, BsMicMute, BsMic, BsCameraVideo } from "react-icons/bs";
+import { setPlayerMic, setPlayerVid } from "../../../chest/utils";
 interface Props {
     streams: IncomingStream[],
     messages: Message[],
@@ -66,6 +70,9 @@ function PeerConnection({
 
     const dispatch = useDispatch();
 
+    const [showVideo, setShowVideo] = useState(true);
+    const [enableMic, setEnableMic] = useState(true)
+
     const start = ()=> {
         dispatch(startGame(null))
     }
@@ -90,73 +97,59 @@ function PeerConnection({
 
     // Every time playing changes
     useEffect(()=> {
-        if (playing) {
-            setPlayerMic(false);
-            return;
+        if (playing && gameState==="playing") {
+            setPlayerMic(false, localStream.current);
+        }else if (!playing || gameState==="over") {
+            setPlayerMic(true, localStream.current);
         }
-        setPlayerMic(true);
-    }, [playing])
+    }, [playing, gameState])
 
-    function setPlayerMic(mute: boolean) {
-        for (let index in localStream.current?.getAudioTracks()) {
-            if(localStream.current) localStream.current.getAudioTracks()[index as any].enabled = mute
-        }
-    }
+    const toggleMic = ()=> (setPlayerMic(!enableMic, localStream.current), setEnableMic(!enableMic));
+    const toggleVid = ()=> (setPlayerVid(!showVideo, localStream.current), setShowVideo(!showVideo))
+
+
 
     return (
-        <Box sx={{
-            gridTemplate: `
-                "header header header"
-            `,
-            ["& .videos"]: {
-                display: "grid",
-                gridTemplateColumns: "repeat(3, 200px)",
-                gridTemplateRows: "repeat(2, 200px)",
-            },
-            ["& .user-video"]: {
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                position: "relative",
-                ["& video"]: {
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                },
-                ["& .user-name"]: {
-                    position: "absolute",
-                    top: "0",
-                    left: "0",
-                    padding: "0.2em 0.6em",
-                    color: "#FFF",
-                    background: "rgb(158, 158, 158)",
-                    borderRadius: "5px",
-                }
-            },
-            ["& .interactions"]: {
-                display: "flex",
-                justifyContent: "space-evenly"
-            }
-        }}>
-            <header className="game-header">
-                <h1>Video meme</h1>
-            </header>
+        <div className="room-page">
             <div className="interactions">
                 <div className="videos">
                     <UserVideo stream={myStream as MediaStream} username={userName} muted/>
                     {streams.map(strm=> (
                         <UserVideo key={strm.id} stream={strm.stream} username={names[strm.id]}/>
                     ))}
+                    {Array((6 - streams.length)).fill(null).map((_,index)=> (
+                        <div className="video-placeholder" key={index}></div>
+                    ))}
                 </div>
                     <Chat 
                         myName={userName}
                         myId={userName}
                         messages={messages}
+                        disabled={playing && gameState === "playing"}
                         sendMessage={(message: string)=>dispatch(sendMessage(message))}
                     />
             </div>
-            {!(gameState==="playing") && <Button onClick={start} variant="contained" className="start-btn">Iniciar Juego</Button>}
-        </Box>
+            <div className="controls">
+                <div>
+                    <div>
+                        <div className="media-controls">
+                            <Button shape="round" onClick={toggleMic}>
+                                {enableMic?<BsMic />: <BsMicMute />}
+                                
+                            </Button>
+                            <Button shape="round" onClick={toggleVid}>
+                                {showVideo?<BsCameraVideo />: <BsCameraVideoOff />}
+                            </Button>
+                        </div>
+                        {!(gameState==="playing") && (
+                            <Button onClick={start}>
+                                Iniciar Juego
+                            </Button>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 };
 
@@ -168,7 +161,7 @@ function mapStateToProps (state: GlobalState) {
         names: state.interactions.instance?.names||{},
         connection: state.interactions.instance,
         messages: state.game.messages,
-        gameState: state.game.instance?.gameState||null,
+        gameState: state.game.gameState,
         playing: state.game.round?.playing,
     }
 }

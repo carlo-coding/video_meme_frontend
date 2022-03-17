@@ -7,7 +7,8 @@ export enum INTERACTIONS {
     SET_CONNECTION = "[INTERACTIONS]: SET_CONNECTION",
     HANG_OUT = "[INTERACTIONS]: HANG_OUT",
     REMOVE_STREAM = "[INTERACTIONS]: REMOVE_STREAM",
-    BROADCAST_MESSAGE = "[INTERACTIONS]: BROADCAST_MESSAGE"
+    DISCONNECT = "[INTERACTIONS]: DISCONNECT"
+    //BROADCAST_MESSAGE = "[INTERACTIONS]: BROADCAST_MESSAGE"
 }
 
 
@@ -23,4 +24,5 @@ export const hangOut = ()=> ({type: INTERACTIONS.HANG_OUT});
 
 export const removeStream = (payload: {id: string})=> ({type: INTERACTIONS.REMOVE_STREAM, payload});
 
-export const broadcastMessage = (payload: { message: string })=> ({ type: INTERACTIONS.BROADCAST_MESSAGE, payload })
+export const disconnect = ()=> ({type: INTERACTIONS.DISCONNECT})
+//export const broadcastMessage = (payload: { message: string })=> ({ type: INTERACTIONS.BROADCAST_MESSAGE, payload })

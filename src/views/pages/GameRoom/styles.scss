@@ -1,0 +1,83 @@
+
+
+.room-page {
+    min-height: 100vh;
+    background-color: var(--clr-main-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 3rem;
+
+    .controls 
+    {
+        width: 80%;
+        > div 
+        {
+            width: min(50%, 600px);
+            > div 
+            {
+                padding: 1em 0;
+                height: 150px;
+                width: 200px;
+                margin-left: auto;
+
+                .media-controls 
+                {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 1.5em;
+                }
+            }
+        }
+    }
+
+    .interactions 
+    {
+        display: flex;
+        justify-content: space-between;
+        height: 400px;
+        width: 80%;
+    }
+
+    .videos 
+    {
+        display: grid;
+        width: min(50%, 600px);
+        height: 100%;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 1px;
+        background-color: var(--clr-main-purple);
+        outline: 1px solid var(--clr-main-purple);
+
+        .user-video
+        {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+            video 
+            {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            .user-name
+            {
+                position: absolute;
+                top: 0;
+                left: 0;
+                padding: 0.2em 0.6em;
+                color: #fff;
+                background-color: rgb(158, 158, 158);
+                border-radius: 5px;
+                border-top-left-radius: 0;
+            }
+        }
+
+        .video-placeholder 
+        {
+            background-color: #393939;
+        }
+    }
+}

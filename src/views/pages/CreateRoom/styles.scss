@@ -1,27 +1,52 @@
 .main-container {
+    --max-itwd: min(70%, 700px);
     min-height: 100vh;
+    background-color: var(--clr-main-dark);
     display: flex;
     align-items: center;
-    justify-content: center;
+    flex-direction: column;
 
-    .card {
-        background: #ccc;
+    .logo
+    {
+        margin: 4rem 0;
+        width: var(--max-itwd);
+        height: 150px;
+        background-color: var(--clr-main-dark);
+        background-image: url(../../../chest/files/logo.png);
+        background-blend-mode: lighten;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .info-game
+    {
+        color: var(--clr-main-clear);
+        width: var(--max-itwd);
+        font-size: 20px;
+        text-align: left;
+        margin: 1em 0;
+    }
+
+    .create-room-card {
+        background-color: var(--clr-main-dark);
+        color: var(--clr-main-clear);
+        width: var(--max-itwd);
         display: grid;
-        grid-column-gap: 1px;
-        box-shadow: 1px 1px 5px #ccc;
-        grid-template-columns: 200px 1fr 1fr;
+        grid-column-gap: 10%;
+        grid-template-columns: 1fr 1fr;
         grid-template-rows: auto auto;
         grid-template-areas: 
-        "inf inp1 inp2" 
-        "inf btn1 btn2" ;
+        "inf inp1" 
+        "inf btn1" ;
 
         & > * {
-            background: #FFF;
-            padding: 1.2em;
+            padding: 1.2em 0;
         }
 
-        .info {
+        .info-url {
             grid-area: inf;
+            text-align: left;
         }
 
         & input {
@@ -39,13 +64,6 @@
             &.num2 { grid-area: inp2 }
         }
 
-        .btn-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            &.num1 { grid-area: btn1 }
-            &.num2 { grid-area: btn2 }
-        }
         .copy-btn {
             padding: 0.7em;
         }

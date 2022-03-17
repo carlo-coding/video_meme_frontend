@@ -1,11 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './styles.css';
+import Button from '../Button';
+import Input from '../Input';
+import './styles.scss';
 
+const scrollGap = 800;
+function autoScroll(elementRef) {
+  if (!elementRef) return;
+  const { scrollTop, scrollHeight } = elementRef;
+  if (scrollTop <= (scrollHeight - scrollGap)) return 
+  elementRef.scroll(0, elementRef.scrollHeight);
+}
 
-function Chat({ myId, myName, messages, sendMessage }) {
+function Chat({ myId, myName, messages, sendMessage, ...props }) {
   const [myMessage, setMyMessage] = useState("");
   const [allMessages, setAllMessages] = useState(messages);
-  const scrollGap = 800;
   const chatRef = useRef(null);
 
   const handleSendMessage = (event)=> {
@@ -18,10 +26,7 @@ function Chat({ myId, myName, messages, sendMessage }) {
 
 
   useEffect(()=> {
-    const { scrollTop, scrollHeight } = chatRef.current;
-    if (scrollTop <= (scrollHeight - scrollGap)) return 
-    chatRef.current.scroll(0, chatRef.current.scrollHeight);
-
+    // Save last message of prop into the chat state
     let lastMessage = messages[messages.length - 1]
     if (!lastMessage) return;
     setAllMessages(prev=>[...prev, {
@@ -30,6 +35,11 @@ function Chat({ myId, myName, messages, sendMessage }) {
       message: lastMessage.message, 
       type: "friend"}]);
   }, [messages]);
+
+  useEffect(()=>{
+    // Autoscroll behaviour on new messages
+    autoScroll(chatRef.current)
+  }, [allMessages]);
 
 
   return (
@@ -43,13 +53,14 @@ function Chat({ myId, myName, messages, sendMessage }) {
           ))}
         </div>
         <form className='user-input' onSubmit={handleSendMessage}>
-            <input 
-              placeholder='Ingresa un mensaje'
-              name="message" 
+            <Input 
+              {...props}
+              name="message"
+              placeholder='Mensaje' 
               value={myMessage} 
               onChange={e=>setMyMessage(e.target.value)}
             />
-            <button type='submit'>Enviar Mensaje</button>
+            <Button type='submit'>Enviar Mensaje</Button>
         </form>
       </div>
   )

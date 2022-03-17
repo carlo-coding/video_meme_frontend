@@ -22,7 +22,7 @@ export interface RoundInterface {
 
 export default interface Game {
     gameState: string|null,
-    start(): void,
+    start(host?: boolean): void,
     sendMessage(message: string): void,
     onMessage: GameListener;
     onGameover: GameListener;

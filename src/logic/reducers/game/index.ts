@@ -2,14 +2,15 @@ import { AnyAction } from "redux";
 import { GAME } from "../../actions/game";
 import Game, { MessageInterface, PlayerInterface, RoundInterface } from "../../entities/Game";
 
-
+type gameStateType = "playing"|"over"|"paused"
 
 const gameState = {
     instance: null as Game|null,
     round: null as RoundInterface|null,
-    winner: null as PlayerInterface|null,
+    winners: null as PlayerInterface[]|null,
     messages: [] as Array<MessageInterface>,
-    nameOfLastPlayer: ""
+    nameOfLastPlayer: "",
+    gameState: "over" as gameStateType
 }
 
 export type GameState = typeof gameState; 
@@ -21,21 +22,19 @@ export default function gameReducer(state: GameState = gameState, action: AnyAct
         case GAME.SAVE_MESSAGE:
             // save the message
             newMessages = [...state.messages, action.payload];
-            console.log("[debug] new messages array ", newMessages)
             return {...state, messages: newMessages};
         case GAME.GAME_OVER:
             // Save data related to game over
-            return {...state, winner: action.payload.winner};
+            return {...state, winners: action.payload.winners, gameState: "over"};
         case GAME.NEW_ROUND:
             // Save data related to new round
-            return {...state, round: action.payload}
+            return {...state, round: action.payload, gameState: "playing"}
         case GAME.ROUND_OVER:
             // Save data
             return {...state, nameOfLastPlayer: action.payload.name};
         case GAME.SEND_MESSAGE:
             // should be sending only string
             // but its sending { name, message }
-            console.log("[debug] sending message ", action.payload)
             // Usa el game para mandar el mensaje
             state.instance?.sendMessage(action.payload);
             return state;
@@ -45,7 +44,7 @@ export default function gameReducer(state: GameState = gameState, action: AnyAct
         case GAME.START_GAME:
             // Usa la instancia del juego en el estado para iniciar un nuevo juego
             state.instance?.start();
-            return state;
+            return {...state, gameState: "playing"};
         default:
             return state;
 

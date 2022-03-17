@@ -23,7 +23,7 @@ export const sendMessage = (payload: string)=> ({ type: GAME.SEND_MESSAGE, paylo
 
 export const saveMessage = (payload: MessageInterface) => ({ type: GAME.SAVE_MESSAGE, payload });
 
-export const gameOver = (payload: { players: Array<PlayerInterface>, winner: PlayerInterface }) => ({ type: GAME.GAME_OVER, payload });
+export const gameOver = (payload: { players: Array<PlayerInterface>, winners: PlayerInterface[]|null }) => ({ type: GAME.GAME_OVER, payload });
 
 export const newRound = (payload: any)=> ({ type: GAME.NEW_ROUND, payload });
 

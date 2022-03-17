@@ -13,10 +13,19 @@ export function flow_initialize_game({ guessWord }: { guessWord: GameService}): 
                 const game = guessWord.createGame(action.payload);
                 dispatch(setGame(game));
 
-                game.onGameover = ({ players, winner })=> {
-                    dispatch(gameOver({ players, winner }));
-                    let content = winner? `El ganador fue ${winner}` : "Nadie ganó"
+                game.onGameover = ({ players, winners, reazon })=> {                    
+                    let content = "";
+                    if (reazon === "Socket" || reazon === "Peer") {
+                        content = "Se ha producido un error de conexión";
+                    }else {
+                        content = winners
+                        ?(winners.length>1)
+                        ?`Fue un empate entre ${winners[0]} y ${winners[1]}`
+                        :`El ganador fue ${winners[0]}` 
+                        : "Nadie ganó"
+                    }
                     showModal("El juego terminó", content)
+                    dispatch(gameOver({ players, winners }));
                 };
 
                 game.onMessage = ({ name, message }) => dispatch(saveMessage({ name, message }));

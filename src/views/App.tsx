@@ -4,21 +4,21 @@ import PeerConnection from './pages/GameRoom';
 import './App.css';
 import CreateRoom from './pages/CreateRoom';
 import { Route } from "wouter";
-import Game from './pages/Game';
-import Modal from "./components/Modal"
+import GetUserName from './pages/GetUserName';
+import Snackbar from "./components/Snackbar"
+import Layout from './components/Layout';
 
 function App() {
-  return (
-    <div className="App">
-        <Modal />
-        <Route path='/' >
-          <CreateRoom />
-        </Route>
-        <Route path='/room/:id'>
-          <Game />
-        </Route>
-    </div>
-  );
+  return <>
+        <Layout>
+          <Route path='/' >
+            <CreateRoom />
+          </Route>
+          <Route path='/room/:id'>
+            <GetUserName />
+          </Route>
+        </Layout>
+  </>
 }
 
 

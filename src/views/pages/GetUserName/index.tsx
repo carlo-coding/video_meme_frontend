@@ -1,7 +1,9 @@
-import "./styles.css";
-import React, { useState, } from "react";
+import "./styles.scss";
+import React, { FormEvent, useState, } from "react";
 import { useRoute } from "wouter";
 import GameRoom from "../GameRoom";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
 
 enum STAGES {
     ENTER_USER_NAME,
@@ -17,7 +19,8 @@ export default function Game() {
     const [name, setName] = useState("");
     const [,params] = useRoute("/room/:id");
 
-    function handleStartGame() {
+    function handleStartGame(e: FormEvent) {
+        e.preventDefault();
         if (!valid(name)) {
             alert("Ingresa un nombre válido");
             return;
@@ -28,12 +31,36 @@ export default function Game() {
     switch(currentStage) {
         case STAGES.ENTER_USER_NAME:
             return (
-                <div className="name_form">
-                    <h3>Ingresa tu nombre</h3>
-                    <input type="text" value={name} onChange={e=>setName(e.target.value)}/>
-                    <button onClick={handleStartGame}>Continuar al juego</button>
+                <div className="get-name-page">
+                    <div className="form-container">
+                    <h2>Ingresa un nombre para entrar al juego.</h2>
+                        <form className="name_form" onSubmit={handleStartGame}>
+                            <Input 
+                                type="text" 
+                                value={name} 
+                                placeholder="Nombre de jugador"
+                                onChange={(e: any)=>setName(e.target?.value)}
+                            />
+                            <Button type="submit">Continuar al juego</Button>
+                        </form>
+                    </div>
+                </div>
+            );
+        case STAGES.START_GAME:
+            return (
+                <div className="start_game">
+                    {params && <>
+                        <GameRoom roomId={params.id} userName={name}/>
+                    </>}
+                </div>
+            )
+    }
+}
 
-                    <div className="game-info">
+
+
+/* 
+<div className="game-info">
                     <p>
                     cuando sea tu turno, te daremos una palabra aleatoria y debes interpretarla 
                     para que el resto la pueda adivinar, así que no prodrás hablar y tendrás
@@ -54,15 +81,5 @@ export default function Game() {
                     El unico que puede iniciar el juego es anfitrión
                     </p>
                     </div>
-                </div>
-            );
-        case STAGES.START_GAME:
-            return (
-                <div className="start_game">
-                    {params && <>
-                        <GameRoom roomId={params.id} userName={name}/>
-                    </>}
-                </div>
-            )
-    }
-}
+
+*/

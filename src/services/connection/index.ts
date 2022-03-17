@@ -9,24 +9,26 @@ type Params = {
     userName: string, 
     nameSpace: string,
     onStream(params: IncomingStream): void,
-    onMessage(params: Message): void,
+    //onMessage(params: Message): void,
     onRemoveStream(params: string): void,
-    onNamesChange(params: NamesInterface): void
+    onNamesChange(params: NamesInterface): void,
+    onDisconnection?(reazon: string): void
 }
 
 class Connection implements ConnectionInterface { 
-    stream; socket; userName; onStream; onMessage; onRemoveStream; onNamesChange; 
+    stream; socket; userName; onStream; /*onMessage;*/ onRemoveStream; onNamesChange; onDisconnection;
     peers: PeersInterface = {};
     names: NamesInterface = {};
 
-    constructor({userStream, userName, nameSpace, onStream, onMessage, onRemoveStream, onNamesChange}: Params) {
+    constructor({userStream, userName, nameSpace, onStream, /*onMessage,*/ onRemoveStream, onNamesChange, onDisconnection}: Params) {
         this.socket = io(`${SERVER_URL}${nameSpace}`);
         this.stream = userStream;
         this.userName = userName;
         this.onStream = onStream;
-        this.onMessage = onMessage;
+        //this.onMessage = onMessage;
         this.onRemoveStream = onRemoveStream;
         this.onNamesChange = onNamesChange;
+        this.onDisconnection = onDisconnection
 
         // Comenzar la propagación desde el cliente para poder 
         // Compartir otros metadatos en la inicialización
@@ -57,6 +59,7 @@ class Connection implements ConnectionInterface {
             // remover su id de las conexiones
             this.removePeer(socket_id);
             this.onRemoveStream(socket_id);
+            if(this.onDisconnection)this.onDisconnection("Peer")
         });
         // Manejar la desconección del socket local
         this.socket?.on("disconnect", ()=> {
@@ -65,14 +68,8 @@ class Connection implements ConnectionInterface {
                 this.removePeer(socket_id);
                 this.onRemoveStream(socket_id);
             }
+            if(this.onDisconnection)this.onDisconnection("Socket")
         });
-
-        this.socket?.on("message", ({ socket_id, message }: any)=> {
-            let name = (socket_id === this.socket?.id)? this.userName : this.names[socket_id]
-            this.onMessage({ message, name })
-        })
-
-        this.socket.emit("start-game");
 
         // END OF CLASS CONSTRUCTOR :)
     }
@@ -109,10 +106,6 @@ class Connection implements ConnectionInterface {
 
     disconnect(): void {
         this.socket?.disconnect();
-    }
-
-    sendMessage(message: string): void {
-        this.socket?.emit("message", message);
     }
 }
 

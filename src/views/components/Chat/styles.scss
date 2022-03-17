@@ -1,31 +1,24 @@
 
   
   .chat-cont {
-    height: 400px;
-    width: 300px;
+    height: 100%;
+    width:  min(50%, 350px);
     display: flex;
     flex-direction: column;
-    margin: 20px
   }
   
   .chat-cont .user-input {
     display: flex;
-    padding: 10px 0;
+    padding-top: 10px;
     gap: 10px;
+    font-size: 14px;
+    max-height: 50px;
+    color: #FFF;
+    button, input {
+      font-size: inherit;
+    }
   }
   
-  .chat-cont .user-input button{
-    all: initial;
-    font: inherit;
-    cursor: pointer;
-    user-select: none;
-    width: 100%;
-    text-align: center;
-    border-radius: 4px;
-    padding: 0.4em 1em;
-    background: #64cee8;
-    color: #FFF;
-  }
   
   
   .chat {
@@ -33,14 +26,15 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    height: 300px;
-    border: 1px solid #64cee8;
+    height: 100%;
+    border: 1px solid var(--clr-main-purple);
   }
   
   .message {
     padding: 0.2em 0.7em;
     border-radius: 10px;
     margin: 5px 3px;
+    max-width: calc(100% - 5ch);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -56,20 +50,23 @@
   
   .message .text {
     font-size: 0.9rem;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
   }
   
   .my-message {
     align-self: flex-end;
-    background:  #64cee8;
+    background:  var(--clr-main-purple);
     color: #FFF;
     border-bottom-right-radius: 0;
     border-top-right-radius: 10px;
   }
   
   .friend-message {
-    background:  #FFF;
-    color: #64cee8;
-    border: 0.5px solid #64cee8;
+    background:  transparent;
+    color: #fff;
+    border: 0.5px solid var(--clr-main-purple);
     border-bottom-left-radius: 0;
     border-top-left-radius: 10px;
   }

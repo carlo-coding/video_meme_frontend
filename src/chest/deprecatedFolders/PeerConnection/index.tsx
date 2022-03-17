@@ -2,7 +2,6 @@ import "./styles.css";
 import { useEffect, useRef, useState } from "react";
 import Peer, { Instance } from "simple-peer";
 import io, { Socket } from "socket.io-client";
-import Chat from "../../../views/pages/Chat";
 
 // Crear un stream local y ponerlo en video
 
@@ -48,14 +47,12 @@ export default function PeerConnection({ roomId, userName }: Props) {
         
         // Recivir el socket id del que recién se unió y guardarlo
         socket.current.on("start-propagation", ({ socket_id, username }: any)=> {
-            console.log("We got the following name: ", username);
             addPeer(socket_id, false, username); 
             socket.current?.emit("respond-propagation", { socket_id, username: userName });
         });
 
         // Recibir el socket id de quienes responden nuestro llamado
         socket.current.on("respond-propagation", ({ socket_id, username })=> {
-            console.log("We got the following name: ", username);
             // guardarlo como receptor
             addPeer(socket_id, true, username);
         })
